@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <title>Pomodoro Clock</title>
+
+  </head>
+  <body>
+    <div class="background">
+        <div class="pomodoro">
+          <h2>Pomodoro Clock</h2>
+          <p id="sessionDisplay" >Session: </p>
+          <div class="timer">
+              <h3 id="clock">25:00</h3>
+          </div>
+          <form class="user" action="index.html" method="post">
+            Set sessions: <input id="sessionInput" type="number" name="sessions">
+
+            <input id="sessions" type="button" value="Submit">
+            <br>
+            Set timer: <input id="timeInput" type="number" name="set timer">
+
+            <input id="time" type="button" value="Submit">
+          </form>
+
+          <div class="buttons">
+            <a id="start" class="start btn">Start</a>
+            <a id="pause" class="pause btn">Pause</a>
+            <a id="restart" class="restart btn">Restart</a>
+          </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="index.js"></script>
+  </body>
+</html>

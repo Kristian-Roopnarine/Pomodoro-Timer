@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css?family=Dosis&display=swap');
+
+/* Global CSS */
+
+* {
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+
+body{
+  font-size:18px;
+  line-height:1.6;
+  word-spacing: 4px;
+  letter-spacing: 1px;
+  font-family: 'Dosis', sans-serif;
+  background-color: #0AA9FE;
+
+}
+
+.background {
+  margin:auto auto;
+  height:800px;
+  width:800px;
+  display:flex;
+  justify-content: center;
+  align-items:center;
+}
+
+.pomodoro {
+  border-radius: 12px;
+  border:10px solid #FFB289;
+  background-color:rgba(255, 178, 137,0.6);
+  height:50%;
+  width:50%;
+  padding:40px;
+  display:flex;
+  flex-direction: column;
+  justify-content:space-between;
+  align-items: center;
+}
+.timer {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  font-size:200%;
+  width:45%;
+  height:20%;
+  background-color: #fff;
+}
+.buttons{
+  width:75%;
+  display:flex;
+  justify-content: space-between;
+}
+
+input[type=number]{
+  width:30px;
+}
+
+.btn:hover,
+.btn:active{
+  cursor:pointer;
+}
