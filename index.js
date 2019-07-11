@@ -1,18 +1,41 @@
 //global variable to hold
 const timerStart = 1500;
 var time= 1500;
-var sessions = -1;
+var sessions;
+var currentSession = 1;
+var wasOnBreak = false;
+var isWorking = true;
+var initialTime;
+var started = false;
 
 var timeData = (function(){
+
+  var working = function(){
+    isWorking = true;
+  }
+
   return {
     countDown:function(){
-      if (time > 0){
+      if (time > 0)
         time--;
         console.log(time);
-        time;
+        if (time == 0){
+          if (currentSession != sessions && isWorking){
+            currentSession ++;
+            time=65;
+            console.log('Your break has started');
+            isWorking=false;
+          } else if (currentSession == sessions) {
+            time = 1800;
+          } else {
+            console.log('else')
+            time = initialTime;
+            setTimeout(working,2000);
+
+          }
+        }
+        }
       }
-    }
-  }
 })();
 
 var UIController = (function(){
@@ -37,9 +60,10 @@ var UIController = (function(){
       }
       var newTime = `${timeMinutes}:${timeSeconds}`; //displays time as (Minutes:Seconds)
       clock.innerHTML = newTime;
+      sessionDisplay.innerHTML = `Sessions: ${currentSession}/${sessions}`;
     },
     changeSessions:function(){
-      sessionDisplay.innerHTML = `Sessions: ${sessions}`;
+      sessionDisplay.innerHTML = `Sessions: ${currentSession}/${sessions}`;
     }
   }
 })();
@@ -50,15 +74,17 @@ var controller = (function(timeCtrl,UICtrl){
   var pause = document.getElementById("pause");
   var customTime= document.getElementById("time");
   var customSessions = document.getElementById("sessions");
-
   //countdown and update HTML at same pace in seconds;
-  var countdown = function(){
-    setInterval(timeCtrl.countDown,1000);
-    setInterval(UICtrl.changeTime,1000);
-  }
 
+  var countdown = function(){
+      setInterval(timeCtrl.countDown,1000);
+      setInterval(UICtrl.changeTime,1000);
+
+}
   // pauses timer
-  var pause = function(){}
+  var freeze = function(){
+    clearInterval(countdown);
+  };
 
   //resets HTML timer
   var backToTimer = function(){
@@ -67,14 +93,43 @@ var controller = (function(timeCtrl,UICtrl){
   }
 
   //start timer on press start
-  start.addEventListener("click",countdown);
+
+  //start.addEventListener("click",function(){
+  if(!started){
+      start.addEventListener('click',countdown);
+      started=true;
+    }
+
 
   //restarts timer on click
-  restart.addEventListener('click', backToTimer);
+  if(started){
+    restart.addEventListener('click',backToTimer);
+    var d = setInterval(timeCtrl.countDown,1000);
+    var c = setInterval(UICtrl.changeTime,1000);
+    clearInterval(d);
+    clearInterval(c);
+    started=false;
+  }
+
+
+  //pauses on click
+  if(started){
+    pause.addEventListener('click',countdown)
+    started=false;
+  }
+  /*pause.addEventListener('click',function(){
+    var d = setInterval(timeCtrl.countDown,1000);
+    var c = setInterval(UICtrl.changeTime,1000);
+    started=false;
+
+    clearInterval(d);
+    clearInterval(c);
+  });*/
 
   //sets custom time
   customTime.addEventListener('click',function(){
     time = parseInt(timeInput.value) * 60;
+    initialTime = parseInt(timeInput.value) * 60;
     UICtrl.changeTime();
   })
 
@@ -83,4 +138,5 @@ var controller = (function(timeCtrl,UICtrl){
     sessions = parseInt(sessionInput.value);
     UICtrl.changeSessions();
   })
+
 })(timeData,UIController);
